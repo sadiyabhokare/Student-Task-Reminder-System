@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Assignment Tracker — Powered by n8n</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+<style>
+:root {
+--primary:#4f46e5;
+--primary-dark:#4338ca;
+--accent:#06b6d4;
+--success:#10b981;
+--warning:#f59e0b;
+--danger:#ef4444;
+--bg:#f9fafb;
+--surface:#ffffff;
+--surface-2:#f1f5f9;
+--border:#e5e7eb;
+--text:#111827;
+--text-light:#6b7280;
+--radius:14px;
+--shadow:0 6px 20px rgba(79,70,229,0.08);
+--shadow-hover:0 12px 28px rgba(79,70,229,0.14);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:'Inter',system-ui,sans-serif;
+background:linear-gradient(135deg,#f9fafb 0%,#f3f4f6 100%);
+color:var(--text);
+min-height:100vh;
+padding:48px 20px;
+}
+
+.container{max-width:860px;margin:0 auto}
+
+h1{
+text-align:center;
+font-size:2.8rem;
+font-weight:800;
+background:linear-gradient(90deg,var(--primary),var(--accent));
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+margin-bottom:8px;
+}
+
+.subtitle{
+text-align:center;
+color:var(--text-light);
+font-size:1.1rem;
+margin-bottom:56px;
+}
+
+.card{
+background:white;
+border-radius:var(--radius);
+box-shadow:var(--shadow);
+padding:40px;
+margin-bottom:48px;
+border:1px solid rgba(79,70,229,0.08);
+transition:all .3s ease;
+}
+
+.card:hover{
+transform:translateY(-4px);
+box-shadow:var(--shadow-hover);
+}
+
+.form-group{margin-bottom:28px}
+
+label{
+display:block;
+font-weight:600;
+margin-bottom:8px;
+}
+
+input{
+width:100%;
+padding:14px 18px;
+border:1px solid var(--border);
+border-radius:var(--radius);
+font-size:1rem;
+background:var(--surface-2);
+}
+
+input:focus{
+outline:none;
+border-color:var(--primary);
+box-shadow:0 0 0 4px rgba(79,70,229,0.12);
+background:white;
+}
+
+.button-group{
+display:flex;
+gap:16px;
+flex-wrap:wrap;
+margin-top:12px;
+}
+
+button{
+padding:14px 30px;
+border-radius:var(--radius);
+font-size:1rem;
+font-weight:600;
+cursor:pointer;
+transition:.25s;
+}
+
+button.primary{
+background:linear-gradient(135deg,var(--primary) 0%,#6366f1 100%);
+color:white;
+border:none;
+box-shadow:0 4px 14px rgba(79,70,229,0.25);
+}
+
+button.primary:hover{
+transform:translateY(-2px);
+}
+
+button.secondary{
+background:var(--surface-2);
+border:1px solid var(--border);
+}
+
+.toast{
+position:fixed;
+bottom:40px;
+right:40px;
+padding:16px 28px;
+border-radius:var(--radius);
+color:white;
+opacity:0;
+transform:translateY(40px);
+transition:.4s;
+}
+
+.toast.show{
+opacity:1;
+transform:translateY(0);
+}
+
+.toast.success{background:var(--success)}
+.toast.error{background:var(--danger)}
+.toast.info{background:var(--warning);color:#1f2937}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Task Tracker</h1>
+<p class="subtitle">Submit assignments → n8n sends data to Google Sheets</p>
+
+<div class="card">
+<form id="submitForm">
+
+<div class="form-group">
+<label>Your Name *</label>
+<input type="text" id="name" required>
+</div>
+
+<div class="form-group">
+<label>Email *</label>
+<input type="email" id="email" required>
+</div>
+
+<div class="form-group">
+<label>Task*</label>
+<input type="text" id="task" required>
+</div>
+
+<div class="form-group">
+<label>Subject *</label>
+<input type="text" id="subject" required>
+</div>
+
+<div class="form-group">
+<label>Deadline *</label>
+<input type="date" id="deadline" required>
+</div>
+
+<div class="button-group">
+<button type="submit" class="primary" id="submitBtn">
+<span id="btnText">Submit to n8n →</span>
+<span id="spinner" style="display:none">⏳</span>
+</button>
+
+<button type="button" class="secondary" onclick="document.getElementById('submitForm').reset()">
+Clear Form
+</button>
+</div>
+
+</form>
+</div>
+
+<div class="card">
+<h2 style="margin-bottom:20px;color:var(--primary)">n8n Webhook Setup</h2>
+
+<div class="form-group">
+<label>Webhook URL</label>
+<input type="url" id="webhook" placeholder="https://your-n8n-webhook-url">
+</div>
+
+<button onclick="saveWebhook()" class="primary">Save Webhook</button>
+
+<p id="whStatus" style="margin-top:20px"></p>
+</div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+
+const TODAY = new Date().toISOString().split('T')[0];
+document.getElementById('deadline').min = TODAY;
+
+let webhook='';
+
+function updateStatus(){
+const el=document.getElementById('whStatus');
+
+if(webhook.trim()){
+el.innerHTML='<span style="color:#10b981;font-weight:600">Webhook connected</span>';
+}
+else{
+el.innerHTML='<span style="color:#f59e0b">Webhook not added</span>';
+}
+}
+
+function saveWebhook(){
+webhook=document.getElementById('webhook').value.trim();
+updateStatus();
+showToast(webhook?'Webhook saved':'Webhook cleared',webhook?'success':'info');
+}
+
+
+document.getElementById('submitForm').addEventListener('submit',async(e)=>{
+
+ e.preventDefault();
+
+ const payload={
+ name:document.getElementById('name').value.trim(),
+ email:document.getElementById('email').value.trim(),
+ task:document.getElementById('task').value.trim(),
+ subject:document.getElementById('subject').value.trim(),
+ deadline:document.getElementById('deadline').value
+ };
+
+ if(!payload.name||!payload.task||!payload.subject||!payload.deadline){
+ showToast('Fill all fields','error');
+ return;
+ }
+
+ if(webhook){
+ try{
+ const res=await fetch(webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+ showToast(res.ok?'Submitted successfully':'Webhook error',res.ok?'success':'error');
+ }
+ catch{
+ showToast('Cannot reach webhook','error');
+ }
+ }
+ else{
+ showToast('Demo mode - webhook missing','info');
+ }
+
+});
+
+function showToast(msg,type='success'){
+const toast=document.getElementById('toast');
+toast.textContent=msg;
+toast.className=`toast ${type} show`;
+setTimeout(()=>toast.classList.remove('show'),4000);
+}
+
+updateStatus();
+
+</script>
+
+</body>
+</html>
