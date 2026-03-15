@@ -1,0 +1,1474 @@
+{
+  "name": "Task Tracker(ngrok)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "student-agent",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -768,
+        -512
+      ],
+      "id": "10bbfdef-3de8-4d94-8f9e-376cf049af91",
+      "name": "Webhook",
+      "webhookId": "ea99a86d-6e29-4407-b961-ad8c818d2bb0"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs",
+          "mode": "list",
+          "cachedResultName": "n8n-student",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.body.name }}",
+            "Task": "={{ $json.body.task }}",
+            "Subject": "={{ $json.body.subject }}",
+            "Deadline": "={{ $json.body.deadline }}",
+            "Email": "={{ $json.body.email }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Task",
+              "displayName": "Task",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Subject",
+              "displayName": "Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Deadline",
+              "displayName": "Deadline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Completed",
+              "displayName": "Completed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ReminderSent",
+              "displayName": "ReminderSent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "useAppend": false
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -544,
+        -512
+      ],
+      "id": "0a882e77-8f03-44fd-b19c-ec010b171a9a",
+      "name": "Append row in sheet",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SBNEodorG6Ub4FVs",
+          "name": "GoogleSheetsAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs",
+          "mode": "list",
+          "cachedResultName": "n8n-student",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs/edit#gid=0"
+        },
+        "options": {}
+      },
+      "name": "Get Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        -528,
+        48
+      ],
+      "id": "df953d6f-d340-44fb-a115-37842a4fade1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SBNEodorG6Ub4FVs",
+          "name": "GoogleSheetsAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * *"
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        -752,
+        48
+      ],
+      "id": "b20a9c29-f35f-47c1-a0d5-17f943bee8b0"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{$json[\"Deadline\"]}}",
+                    "rightValue": "={{$now.format(\"yyyy-MM-dd\")}}",
+                    "operator": {
+                      "type": "dateTime",
+                      "operation": "before"
+                    },
+                    "id": "1cce21e7-eb59-41c7-84de-bb1d241b4acc"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Overdue"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "4957aab7-aab3-4575-8494-d98080366820",
+                    "leftValue": "={{$json[\"Deadline\"]}}",
+                    "rightValue": "={{$now.format(\"yyyy-MM-dd\")}}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Today"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "fb89b0ad-850c-4d16-9161-b265301acd21",
+                    "leftValue": "={{$json[\"Deadline\"]}}",
+                    "rightValue": "={{$now.plus({days:1}).format(\"yyyy-MM-dd\")}}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Tomorrow"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -64,
+        128
+      ],
+      "id": "9eecd2f6-f214-4547-9778-1bb0dca6ef66",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$json[\"Email\"]}}",
+        "subject": "=Overdue Alert: {{$json[\"Task\"]}}",
+        "message": "=Hi {{ $json.Name }},\n\nYour task \"{{ $json.Task }}\" is {{ $json.ReminderSent }} (Deadline: {{ $json.Deadline }}).\n\nHave you completed it? Click here to mark as done:\n\n<a href=\"https://trochanteric-gladis-superlaryngeally.ngrok-free.dev/webhook/complete-task?row_number={{ $json.row_number }}&email={{ $json.Email | url_encode }}&task={{ $json.Task | url_encode }}\" style=\"background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;\">Mark as Completed ✅</a>\n\nBest regards,  \nYour Task Buddy  \n( Powered by your smart reminder system 😊 )",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        688,
+        -112
+      ],
+      "id": "c1feefa6-6cf1-4a95-84e3-bbd033210f7b",
+      "name": "Overdue-mail",
+      "webhookId": "2e39eef3-34ae-4825-a3c1-40ba57eb4211",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "mkb9TDOyeraTFWqC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$json[\"Email\"]}}",
+        "subject": "=Reminder: {{$json[\"Task\"]}} is due today",
+        "message": "=Hi {{ $json.Name }},\n\nYour task \"{{ $json.Task }}\" is {{ $json.ReminderSent }} (Deadline: {{ $json.Deadline }}).\n\nHave you completed it? Click here to mark as done:\n\n<a href=\"https://trochanteric-gladis-superlaryngeally.ngrok-free.dev/webhook/complete-task?row_number={{ $json.row_number }}&email={{ $json.Email | url_encode }}&task={{ $json.Task | url_encode }}\" style=\"background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;\">Mark as Completed ✅</a>\n\nBest regards,  \nYour Task Buddy  \n( Powered by your smart reminder system 😊 )",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        688,
+        128
+      ],
+      "id": "f6683153-e92b-423a-b40e-b5047d0fa227",
+      "name": "Today-mail",
+      "webhookId": "420bc584-87b1-4249-bafd-a63f3de95a10",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "mkb9TDOyeraTFWqC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$json[\"Email\"]}}",
+        "subject": "=Upcoming Task: {{$json[\"Task\"]}}",
+        "message": "=Hi {{ $json.Name }},\n\nYour task \"{{ $json.Task }}\" is {{ $json.ReminderSent }} (Deadline: {{ $json.Deadline }}).\n\nHave you completed it? Click here to mark as done:\n\n<a href=\"https://trochanteric-gladis-superlaryngeally.ngrok-free.dev/webhook/complete-task?row_number={{ $json.row_number }}&email={{ $json.Email | url_encode }}&task={{ $json.Task | url_encode }}\" style=\"background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;\">Mark as Completed ✅</a>\n\nBest regards,  \nYour Task Buddy  \n( Powered by your smart reminder system 😊 )",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        688,
+        400
+      ],
+      "id": "bea678f7-8b1f-4bdc-a1cc-54f5d06a19dd",
+      "name": "Tomorrow-mail",
+      "webhookId": "5133c60e-ceaf-471f-a9f3-df87ab1bc3c4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "mkb9TDOyeraTFWqC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1bafd195-4d92-4853-acfd-5a65cf42e75f",
+              "leftValue": "={{$json[\"ReminderSent\"]}}",
+              "rightValue": "={{$now.plus({days:1}).format(\"yyyy-MM-dd\")}}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        416
+      ],
+      "id": "e2b8b101-e78c-4838-9b76-4293adf2a876",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8ba70757-d409-43de-b5f2-6aea5261276c",
+              "leftValue": "={{$json[\"ReminderSent\"]}}",
+              "rightValue": "={{$now.format(\"yyyy-MM-dd\")}}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        144
+      ],
+      "id": "b4c31012-8be7-4a36-8e2d-13a8d809b12b",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "18cadf4a-16c3-477a-ae13-22d3e6361c9b",
+              "leftValue": "={{$json[\"ReminderSent\"]}}",
+              "rightValue": "={{$now.format(\"yyyy-MM-dd\")}}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        -96
+      ],
+      "id": "592757c9-87f7-47f0-9694-6a15c16689d9",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ecbf3a79-6cc6-439b-9ad7-105ef8d713ce",
+              "name": "row_number",
+              "value": "={{ $json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "d7e5062d-4e64-4c06-a6f5-3f4d2b646f96",
+              "name": "Name",
+              "value": "={{ $json.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "337a73d6-1a07-4e86-913d-4172db922ef3",
+              "name": "Task",
+              "value": "={{ $json.Task }}",
+              "type": "string"
+            },
+            {
+              "id": "7e3d1a75-ae02-4c1c-beaf-076c39f6fae5",
+              "name": "Subject",
+              "value": "={{ $json.Subject }}",
+              "type": "string"
+            },
+            {
+              "id": "7e703bc8-85d6-4a00-88c0-213f79a04aa2",
+              "name": "Deadline",
+              "value": "={{ $json.Deadline }}",
+              "type": "string"
+            },
+            {
+              "id": "f85ef6d3-0dc8-43b3-b664-02e8ad7d4dd5",
+              "name": "Status",
+              "value": "={{ $json.Status }}",
+              "type": "string"
+            },
+            {
+              "id": "e4bc5b20-5845-4a5c-8a88-bf0b10fc1f00",
+              "name": "Email",
+              "value": "={{ $json.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "12d179b3-dbd1-4c77-a289-9562ea1bc494",
+              "name": "ReminderSent",
+              "value": "=Overdue",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        464,
+        -112
+      ],
+      "id": "94f83923-3331-4afb-ad94-895690c1c5f1",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b09d830e-8d48-43af-b714-9bf6c07b748f",
+              "name": "row_number",
+              "value": "={{ $json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "ed43904f-c771-4f60-a52f-6dda2ce8dc2d",
+              "name": "Name",
+              "value": "={{ $json.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "affa54ca-f3b9-4808-99f4-41be4e2e2990",
+              "name": "Task",
+              "value": "={{ $json.Task }}",
+              "type": "string"
+            },
+            {
+              "id": "8676b2b4-4348-447c-acfb-4cc0165852e9",
+              "name": "Subject",
+              "value": "={{ $json.Subject }}",
+              "type": "string"
+            },
+            {
+              "id": "a8889d2d-85d4-41dd-b03c-ffd29251ef9f",
+              "name": "Deadline",
+              "value": "={{ $json.Deadline }}",
+              "type": "string"
+            },
+            {
+              "id": "ce21e0f7-d119-4ccd-9ccd-27d2bd220ce5",
+              "name": "Status",
+              "value": "={{ $json.Status }}",
+              "type": "string"
+            },
+            {
+              "id": "f13916ef-707d-4109-a311-dd174f3d40d0",
+              "name": "Email",
+              "value": "={{ $json.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "445e8207-2f55-48a3-8542-5f1820b2866c",
+              "name": "ReminderSent",
+              "value": "=Today",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        464,
+        128
+      ],
+      "id": "ecb596c4-465f-4bbd-933f-0c4896354736",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fbaa992c-3a43-4142-8ea4-8bd682a3dac7",
+              "name": "row_number",
+              "value": "={{ $json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "8292f7ed-7a54-4ae9-914a-6c241f160f92",
+              "name": "Name",
+              "value": "={{ $json.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "a4f5cd0b-d3e3-47a6-bcbe-ea70773cb406",
+              "name": "Task",
+              "value": "={{ $json.Task }}",
+              "type": "string"
+            },
+            {
+              "id": "37bda626-3bf2-4ad1-9773-dd1036f5bda5",
+              "name": "Subject",
+              "value": "={{ $json.Subject }}",
+              "type": "string"
+            },
+            {
+              "id": "feefe279-34f2-483c-ae9c-0f12ae0ce36a",
+              "name": "Deadline",
+              "value": "={{ $json.Deadline }}",
+              "type": "string"
+            },
+            {
+              "id": "af6d17f8-901b-41af-98f3-c6d82b49e519",
+              "name": "Status",
+              "value": "={{ $json.Status }}",
+              "type": "string"
+            },
+            {
+              "id": "f7c8df5b-3911-408f-a1b2-6cffebada9d7",
+              "name": "Email",
+              "value": "={{ $json.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "9d2f9b27-d2fe-4435-87cf-c641a7097ecd",
+              "name": "ReminderSent",
+              "value": "=Tomorrow",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        464,
+        400
+      ],
+      "id": "760c40c3-5058-4cb3-8785-7b92c3f9e4a2",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e264ac64-c250-4683-9ea3-9297ee38c0bf",
+              "leftValue": "={{ $json.Completed }}",
+              "rightValue": "YES",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -320,
+        48
+      ],
+      "id": "e6d197a8-b57d-4aa9-8092-434c17a51847",
+      "name": "Skip if Completed"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs",
+          "mode": "list",
+          "cachedResultName": "n8n-student",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ReminderSent": "Overdue",
+            "row_number": "={{ $('Edit Fields1').item.json.row_number }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Task",
+              "displayName": "Task",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Subject",
+              "displayName": "Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Deadline",
+              "displayName": "Deadline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ReminderSent",
+              "displayName": "ReminderSent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        896,
+        -112
+      ],
+      "id": "58d41813-a111-48ed-9a38-707b5687bbeb",
+      "name": "Overdue_Reminder",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SBNEodorG6Ub4FVs",
+          "name": "GoogleSheetsAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs",
+          "mode": "list",
+          "cachedResultName": "n8n-student",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ReminderSent": "Today",
+            "row_number": "={{ $('Edit Fields2').item.json.row_number }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Task",
+              "displayName": "Task",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Subject",
+              "displayName": "Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Deadline",
+              "displayName": "Deadline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ReminderSent",
+              "displayName": "ReminderSent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        896,
+        128
+      ],
+      "id": "9d2250ec-d988-4fb9-a794-ed19a93d3572",
+      "name": "Today_Reminder",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SBNEodorG6Ub4FVs",
+          "name": "GoogleSheetsAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs",
+          "mode": "list",
+          "cachedResultName": "n8n-student",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ReminderSent": "Tomorrow",
+            "row_number": "={{ $('Edit Fields3').item.json.row_number }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Task",
+              "displayName": "Task",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Subject",
+              "displayName": "Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Deadline",
+              "displayName": "Deadline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ReminderSent",
+              "displayName": "ReminderSent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        896,
+        400
+      ],
+      "id": "e9d6a1eb-35c0-4c29-8184-34ee170f0c83",
+      "name": "Tomorrow_Reminder",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SBNEodorG6Ub4FVs",
+          "name": "GoogleSheetsAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs",
+          "mode": "list",
+          "cachedResultName": "n8n-student",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10pC9T17UL4-aGS5HHcZ7aT646yd9DlOdHVKV3zaUbRs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Completed": "YES",
+            "row_number": "={{ $json.row_number }}",
+            "Email": "={{ $('Complete Task Webhook').item.json.body.email }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Task",
+              "displayName": "Task",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Subject",
+              "displayName": "Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Deadline",
+              "displayName": "Deadline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Completed",
+              "displayName": "Completed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ReminderSent",
+              "displayName": "ReminderSent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -192,
+        -304
+      ],
+      "id": "be24b84f-5452-44e0-aefd-215f6bf427b1",
+      "name": "Mark as Completed",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SBNEodorG6Ub4FVs",
+          "name": "GoogleSheetsAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "=complete-task",
+        "options": {
+          "rawBody": false
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -752,
+        -304
+      ],
+      "id": "c9153e3b-d0da-435f-9201-01430e0785b5",
+      "name": "Complete Task Webhook",
+      "webhookId": "b407b9a1-27f6-448d-aa30-57cefa3a5111"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "\"Task Completed 🎉\"",
+        "message": "=Hi {{ $json.Name }},\n\nYayy! 🎉 Your task **\"{{ $json.Task }}\"** ({{ $json.Subject }}) has been marked as **COMPLETED**!  \n\nYou did it right on time (or even better, ahead of time 😎). We're super proud of you! Keep shining like this 💪✨\n\nDeadline was: {{ $json.Deadline }}  \nMarked completed on: {{ $now.format(\"yyyy-MM-dd\") }}\n\nIf you have any more tasks coming up, don't worry – we'll remind you on time. Keep going! 🚀\n\nBest regards,  \nYour Task Buddy  \n( Powered by your smart reminder system 😊 )",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        96,
+        -304
+      ],
+      "id": "8eee8a3a-1ea2-4aab-aa03-811f234c5a3f",
+      "name": "Completed-mail",
+      "webhookId": "122012e4-17f6-4c48-93a6-dac0f68c5657",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "mkb9TDOyeraTFWqC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5e12dcf3-cd63-4ddd-be5f-5cdd54011816",
+              "name": "row_number",
+              "value": "={{ Number($json.query.row_number || $json.body.row_number) || 0 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -448,
+        -304
+      ],
+      "id": "98d1c064-c75b-4a9d-94f6-8b5e3c262402",
+      "name": "Edit Fields4"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Sheet": {
+      "main": [
+        [
+          {
+            "node": "Skip if Completed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Overdue-mail": {
+      "main": [
+        [
+          {
+            "node": "Overdue_Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Today-mail": {
+      "main": [
+        [
+          {
+            "node": "Today_Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tomorrow-mail": {
+      "main": [
+        [
+          {
+            "node": "Tomorrow_Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Overdue-mail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Today-mail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Tomorrow-mail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Skip if Completed": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark as Completed": {
+      "main": [
+        [
+          {
+            "node": "Completed-mail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Complete Task Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Mark as Completed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "baa45a3f-bba7-4c98-86c3-9f455b4d8548",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "be8c208dcd7a36efdf3c3a87dd7ec940e0035cc4a2e2c3e6952ddd2eb91c69db"
+  },
+  "id": "jeLOZcBbHUfnk5r3",
+  "tags": []
+}
