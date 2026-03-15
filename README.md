@@ -148,7 +148,7 @@ Add credentials for:
 Update the webhook URL in your frontend code.
 
 ```javascript
-const WEBHOOK_URL = "https://trochanteric-gladis-superlaryngeally.ngrok-free.dev/webhook/student-agent";
+const WEBHOOK_URL = https://trochanteric-gladis-superlaryngeally.ngrok-free.dev/webhook/student-agent
 ```
 
 ---
