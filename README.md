@@ -108,19 +108,17 @@ Student-Task-Reminder/
 
 # 📸 Screenshots
 
-(Add your screenshots in the repository)
-
 ### 🧩 n8n Workflow
-`screenshots/workflow.png`
+![Workflow](screenshots/workflow.png)
 
 ### 🌐 Task Submission Webpage
-`screenshots/webpage.png`
+![Webpage](screenshots/webpage.png)
 
 ### 📩 Email Reminder
-`screenshots/email.png`
+![Email](screenshots/email.png)
 
 ### 📊 Google Sheet Storage
-`screenshots/sheet.png`
+![Sheet](screenshots/sheet.png)
 
 ---
 
